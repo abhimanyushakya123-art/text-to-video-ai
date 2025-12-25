@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Text to Video</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+  text-align: center;
+}
+textarea, select, button {
+  width: 90%;
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+button {
+  background: #00ffaa;
+  border: none;
+  cursor: pointer;
+}
+video {
+  width: 90%;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Text to AI Video</h2>
+
+<textarea id="prompt" placeholder="Enter your story"></textarea>
+
+<select id="style">
+  <option value="anime">Anime</option>
+  <option value="vintage">Vintage</option>
+  <option value="clay">Clay</option>
+  <option value="airbrush">Airbrush</option>
+  <option value="cinematic">Cinematic</option>
+  <option value="cartoon">Cartoon</option>
+  <option value="watercolor">Watercolor</option>
+  <option value="neon">Neon</option>
+</select>
+
+<select id="duration">
+  <option value="10">10 Seconds</option>
+  <option value="20">20 Seconds</option>
+  <option value="30">30 Seconds</option>
+</select>
+
+<button onclick="generate()">Generate Video</button>
+
+<p id="status"></p>
+<video id="video" controls></video>
+
+<script>
+async function generate() {
+  status.innerText = "Generating video...";
+
+  const res = await fetch("https://YOUR-BACKEND-URL/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: prompt.value,
+      style: style.value,
+      duration: duration.value
+    })
+  });
+
+  const data = await res.json();
+  video.src = data.video;
+  status.innerText = "Done!";
+}
+</script>
+
+</body>
+</html>
